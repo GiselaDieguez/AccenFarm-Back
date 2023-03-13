@@ -5,13 +5,12 @@ import Gisela.demo.service.FarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value= "/farm")
@@ -25,6 +24,12 @@ public class farmController {
             @RequestParam(required = false, defaultValue = "10") Integer size,
             @RequestParam(required = false, defaultValue = "false") Boolean enabledPagination) {
         return ResponseEntity.ok(farmService.getAllData(page, size, enabledPagination));
+    }
+
+    @GetMapping(value = "/all/products")
+    public ResponseEntity<List<Farm>> findProductNm() {
+        farmService.findProductNm();
+        return ResponseEntity.status(HttpStatus.OK).body(farmService.findProductNm());
     }
 
 }

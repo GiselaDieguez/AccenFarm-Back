@@ -10,8 +10,9 @@ import java.sql.Time;
 public class Farm {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long transactionid;
+
     private Time time;
-    private Long productid;
+    private String productnm;
     private Long transactionamt;
+    private String transactionnm;
 }

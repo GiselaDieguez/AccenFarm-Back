@@ -17,36 +17,18 @@ public class EggService {
     @Autowired
     private iEggRepository iEggRepository;
 
-    public Egg buyEggs(Egg egg) {
-        if(egg.getProductid() == null) {
-            return iEggRepository.save(egg);
-        }
-        return null;
+    public List<Egg> buyEggs() {
+        return iEggRepository.buyEggs();
     }
 
     public Page<Egg> getAllEggs(Integer page, Integer size, Boolean enabledPagination) {
         return iEggRepository.findAll(enabledPagination ? PageRequest.of(page, size) : Pageable.unpaged());
     }
 
-    // editttt
-
-    public Egg editEgg(Egg egg) {
-        if(egg.getProductid() != null && iEggRepository.existsById(egg.getProductid())){
-            return iEggRepository.save(egg);
-        }
-        return null;
-    }
-
-    // find farm chickens
-    public Optional<Egg> findByProductid(Long productid) {
-        return iEggRepository.findByProductid(productid);
-
-    }
+    /*
     public void deleteEggs(Long productid) {
         iEggRepository.deleteById(productid);
     }
+     */
 
-    public boolean existsById(Long productid) {
-        return iEggRepository.existsById(productid);
-    }
 }

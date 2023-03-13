@@ -1,17 +1,14 @@
 package Gisela.demo.model;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "factProducts")
-public class Egg {
+@Table(name = "factproducts")
+public class ProductsAmt {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long productid;
-    private Long datekey;
-    private Long productamt;
 
+    private Integer productamt;
 
 }
