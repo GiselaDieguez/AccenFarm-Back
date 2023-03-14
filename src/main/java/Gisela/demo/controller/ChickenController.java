@@ -16,10 +16,16 @@ public class ChickenController {
     @Autowired
     private ChickenService chickenService;
 
-    @PostMapping("/chicken")
+    @PostMapping("/buy")
     public ResponseEntity<List<Chicken>> buyChicken() {
         chickenService.buyChicken();
         return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.buyChicken());
+    }
+
+    @PostMapping("/sell")
+    public ResponseEntity<List<Chicken>> sellChicken() {
+        chickenService.sellChicken();
+        return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.sellChicken());
     }
 
 }

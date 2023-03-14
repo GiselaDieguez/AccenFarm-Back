@@ -10,14 +10,30 @@ import java.util.List;
 public interface iFarmRepository extends JpaRepository<Farm, Long> {
 
     @Query(value = "SELECT ft.time\n" +
-            "\t, dm.productnm\n" +
-            "\t, dt.transactionnm\n" +
-            "\t, ft.transactionamt \n" +
+            "       , pb.productnm\n" +
+            "\t     , pb.productprice\n" +
+            "       , ft.transactionamt\n" +
             "FROM public.facttransactions ft (nolock)\n" +
-            "LEFT JOIN public.dimproducts dm\n" +
-            "ON ft.productid = dm.productid \n" +
-            "LEFT JOIN public.dimtransactiontype dt\n" +
-            "ON dm.productid = dt.productid", nativeQuery = true)
-    List<Farm> findProductNm();
+            "INNER JOIN public.buyporducts pb\n" +
+            "ON ft.productid = pb.productid ", nativeQuery = true)
+    List<Farm> buyProducts();
+
+    @Query(value = "SELECT ft.time\n" +
+            "       , ps.productnm\n" +
+            "\t     , ps.productprice\n" +
+            "       , ft.transactionamt\n" +
+            "FROM public.facttransactions ft (nolock)\n" +
+            "INNER JOIN public.sellproducts ps\n" +
+            "ON ft.productid = ps.productid  ", nativeQuery = true)
+    List<Farm> sellProducts();
+
+    @Query(value = "SELECT ft.time\n" +
+            "       , ps.productnm\n" +
+            "\t     , ps.productprice\n" +
+            "       , ft.transactionamt\n" +
+            "FROM public.facttransactions ft (nolock)\n" +
+            "INNER JOIN public.sellproducts ps\n" +
+            "ON ft.productid = ps.productid  ", nativeQuery = true)
+    List<Farm> dropProducts();
 
 }

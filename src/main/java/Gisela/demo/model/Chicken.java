@@ -5,11 +5,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "factproducts")
+@Table
 public class Chicken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productid;
-    private Long activeind;
 
 }

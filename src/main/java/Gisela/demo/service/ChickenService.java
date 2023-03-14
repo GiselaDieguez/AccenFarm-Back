@@ -15,20 +15,9 @@ public class ChickenService {
     public List<Chicken> buyChicken() {
         return iChickenRepository.buyChicken();
     }
-
-    // find  buy chickens
-
-
-    // find farm chickens
-    public List<Chicken> findByActiveind(Long activeind) {
-        return iChickenRepository.findByActiveind(activeind);
-
-    }
-    public void deleteChicken(Long id) {
-        iChickenRepository.deleteById(id);
+    public List<Chicken> sellChicken() {
+        return iChickenRepository.sellChicken();
     }
 
-    public boolean existsById(Long id) {
-        return iChickenRepository.existsById(id);
-    }
+
 }

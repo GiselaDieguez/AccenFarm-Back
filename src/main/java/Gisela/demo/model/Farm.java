@@ -13,6 +13,7 @@ public class Farm {
 
     private Time time;
     private String productnm;
-    private Long transactionamt;
-    private String transactionnm;
+    private Integer productprice;
+    private Integer transactionamt;
+
 }

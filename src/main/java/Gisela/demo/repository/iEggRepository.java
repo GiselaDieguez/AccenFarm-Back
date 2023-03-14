@@ -9,9 +9,19 @@ import java.util.List;
 @Repository
 public interface iEggRepository extends JpaRepository<Egg, Long> {
 
-    @Query(value = "UPDATE public.factproducts \n" +
+    @Query(value = "UPDATE public.buyproducts \n" +
             "SET productamt = productamt + 1 \n" +
-            "WHERE productid = 1\n" +
+            "WHERE productid = 2\n" +
             ";", nativeQuery = true)
     List<Egg> buyEggs();
+
+    @Query(value = "UPDATE public.sellproducts\n" +
+            "SET productamt = productamt + 1 \n" +
+            "WHERE productid = 2;", nativeQuery = true)
+    List<Egg> sellEggs();
+
+    @Query(value = "UPDATE public.deleteproducts\n" +
+            "SET productamt = productamt + 1 \n" +
+            "WHERE productid = 2;", nativeQuery = true)
+    List<Egg> dropEggs();
 }

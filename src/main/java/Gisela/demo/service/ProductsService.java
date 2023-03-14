@@ -11,8 +11,8 @@ import java.util.List;
 public class ProductsService {
     @Autowired
     private iProductsRepository iProductsRepository;
-    public List<ProductsAmt> showProductAmt() {
-        return iProductsRepository.showProductAmt();
+    public List<ProductsAmt> showChickens() {
+        return iProductsRepository.showChickens();
 
     }
 

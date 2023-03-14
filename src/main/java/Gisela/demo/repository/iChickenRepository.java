@@ -10,15 +10,17 @@ import java.util.List;
 @Repository
 public interface iChickenRepository extends JpaRepository<Chicken, Long> {
 
-    @Query(value = "SELECT * FROM chicken WHERE activeind =?1", nativeQuery = true)
-    List<Chicken> findByActiveind(Long activeind);
-
-
-    @Query(value = "UPDATE public.factproducts \n" +
+    @Query(value = "UPDATE public.buyproducts\n" +
             "SET productamt = productamt + 1 \n" +
-            "WHERE productid = 5\n" +
+            "WHERE productid = 1\n" +
             ";", nativeQuery = true)
     List<Chicken> buyChicken();
+
+    @Query(value = "UPDATE public.sellproducts\n" +
+            "SET productamt = productamt + 1 \n" +
+            "WHERE productid = 1\n" +
+            ";", nativeQuery = true)
+    List<Chicken> sellChicken();
 
 
 

@@ -9,13 +9,8 @@ import java.util.List;
 
 @Repository
 public interface iCashRepository extends JpaRepository<Cash, Long> {
-    @Query(value = "SELECT SUM(transactionamt * buyprice) as totalcash\n" +
-            "FROM public.facttransactions ft (nolock)\n" +
-            "INNER JOIN public.dimproducts dm\n" +
-            "ON ft.productid = dm.productid \n" +
-            "INNER JOIN public.dimtransactiontype dt\n" +
-            "ON dm.productid = dt.productid \n" +
-            "WHERE dt.id IN (2, 7) ", nativeQuery = true)
+    @Query(value = "SELECT SUM(totalcash) as totalcash\n" +
+            "FROM public.facttransactions", nativeQuery = true)
     List<Cash> showCash();
 
 }

@@ -5,13 +5,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "factProducts")
+@Table(name = "productsbuy")
 public class Egg {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productid;
-    private Long datekey;
-    private Long productamt;
-
 
 }

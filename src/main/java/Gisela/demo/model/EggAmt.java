@@ -4,11 +4,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "facttransactions")
-public class ProductsAmt {
+@Table(name = "productsbuy")
+
+public class EggAmt {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer totalchickens;
-
-
+    private Long totaleggs;
 }
