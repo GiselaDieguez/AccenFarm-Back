@@ -28,4 +28,10 @@ public class ChickenController {
         return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.sellChicken());
     }
 
+    @PostMapping("/drop")
+    public ResponseEntity<List<Chicken>> dropChicken() {
+        chickenService.dropChicken();
+        return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.dropChicken());
+    }
+
 }

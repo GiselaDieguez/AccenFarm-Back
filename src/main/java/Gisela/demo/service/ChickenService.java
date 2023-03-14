@@ -18,6 +18,6 @@ public class ChickenService {
     public List<Chicken> sellChicken() {
         return iChickenRepository.sellChicken();
     }
-
+    public List<Chicken> dropChicken() { return iChickenRepository.dropChicken(); }
 
 }

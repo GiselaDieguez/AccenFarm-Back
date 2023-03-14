@@ -1,6 +1,7 @@
 package Gisela.demo.repository;
 
 import Gisela.demo.model.Chicken;
+import Gisela.demo.model.Egg;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,10 @@ public interface iChickenRepository extends JpaRepository<Chicken, Long> {
             ";", nativeQuery = true)
     List<Chicken> sellChicken();
 
+    @Query(value = "UPDATE public.deleteproducts\n" +
+            "SET productamt = productamt + 1 \n" +
+            "WHERE productid = 1;", nativeQuery = true)
+    List<Chicken> dropChicken();
 
 
 }
