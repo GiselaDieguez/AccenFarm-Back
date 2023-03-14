@@ -14,7 +14,7 @@ public interface iFarmRepository extends JpaRepository<Farm, Long> {
             "\t     , pb.productprice\n" +
             "       , ft.transactionamt\n" +
             "FROM public.facttransactions ft (nolock)\n" +
-            "INNER JOIN public.buyporducts pb\n" +
+            "INNER JOIN public.buyproducts pb\n" +
             "ON ft.productid = pb.productid ", nativeQuery = true)
     List<Farm> buyProducts();
 
