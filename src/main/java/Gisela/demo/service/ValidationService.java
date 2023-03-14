@@ -20,4 +20,13 @@ public class ValidationService {
         return iValidationRepository.validationAmtCash();
     }
 
+    public Integer validationChickenPrice() {
+        return iValidationRepository.validationChickenPrice();
+    }
+
+    public Integer validationEggPrice() {
+        return iValidationRepository.validationEggPrice();
+    }
+
+
 }

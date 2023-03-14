@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.TimerTask;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -24,5 +27,19 @@ public class validationController {
         ValidationService.validationAmtEgg();
         return ResponseEntity.status(HttpStatus.OK).body(ValidationService.validationAmtEgg());
     }
+
+    @GetMapping(value = "/validation/chickenPrice")
+    public ResponseEntity<Integer> validationChickenPrice() {
+        ValidationService.validationChickenPrice();
+        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.validationChickenPrice());
+    }
+
+    @GetMapping(value = "/validation/eggPrice")
+    public ResponseEntity<Integer> validationEggPrice() {
+        ValidationService.validationEggPrice();
+        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.validationEggPrice());
+    }
+
+
 
 }

@@ -32,4 +32,15 @@ public interface iValidationRepository extends JpaRepository<Validation, Integer
             "FROM public.facttransactions", nativeQuery = true)
     Integer validationAmtCash();
 
+    @Query(value = "SELECT productprice\n" +
+            "FROM buyproducts \n" +
+            "WHERE productid = 1 ", nativeQuery = true)
+    Integer validationChickenPrice();
+
+    @Query(value = "SELECT productprice\n" +
+            "FROM buyproducts \n" +
+            "WHERE productid = 2 ", nativeQuery = true)
+    Integer validationEggPrice();
+
+
 }

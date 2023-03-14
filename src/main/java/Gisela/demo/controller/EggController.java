@@ -23,7 +23,8 @@ public class EggController {
     public ResponseEntity<List<Egg>> buyEggs() {
         Integer validationEgg = validationService.validationAmtEgg();
         Integer validationAmtCash = validationService.validationAmtCash();
-        if(validationEgg < 10 && validationAmtCash > 20) {
+        Integer validationEggPrice = validationService.validationEggPrice();
+        if(validationEgg < 10 && validationAmtCash > validationEggPrice) {
             eggService.buyEggs();
             return ResponseEntity.status(HttpStatus.CREATED).body(eggService.buyEggs());
         }else{

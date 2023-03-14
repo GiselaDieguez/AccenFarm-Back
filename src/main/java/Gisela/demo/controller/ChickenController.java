@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,7 +22,8 @@ public class ChickenController {
     public ResponseEntity<List<Chicken>> buyChicken() {
         Integer validationChicken = validationService.validationAmt();
         Integer validationAmtCash = validationService.validationAmtCash();
-        if (validationChicken < 10 && validationAmtCash > 200) {
+        Integer validationChickenPrice = validationService.validationChickenPrice();
+        if (validationChicken < 10 && validationAmtCash > validationChickenPrice) {
             chickenService.buyChicken();
             return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.buyChicken());
         }else {
