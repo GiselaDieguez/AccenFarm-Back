@@ -28,12 +28,14 @@ public interface iFarmRepository extends JpaRepository<Farm, Long> {
     List<Farm> sellProducts();
 
     @Query(value = "SELECT ft.time\n" +
-            "       , ps.productnm\n" +
-            "\t     , ps.productprice\n" +
-            "       , ft.transactionamt\n" +
+            "\t, ps.productnm\n" +
+            "\t, ft.transactionamt\n" +
+            "\t, sp.productprice \n" +
             "FROM public.facttransactions ft (nolock)\n" +
-            "INNER JOIN public.sellproducts ps\n" +
-            "ON ft.productid = ps.productid  ", nativeQuery = true)
+            "INNER JOIN public.deleteproducts ps\n" +
+            "ON ft.productid = ps.productid\n" +
+            "INNER JOIN public.sellproducts sp\n" +
+            "ON ft.productid = sp.productid ", nativeQuery = true)
     List<Farm> dropProducts();
 
 }
