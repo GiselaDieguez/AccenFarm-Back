@@ -2,6 +2,7 @@ package Gisela.demo.controller;
 
 import Gisela.demo.model.Egg;
 import Gisela.demo.service.EggService;
+import Gisela.demo.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +16,41 @@ import java.util.List;
 public class EggController {
     @Autowired
     private EggService eggService;
+    @Autowired
+    private ValidationService validationService;
 
     @PostMapping("/buy")
     public ResponseEntity<List<Egg>> buyEggs() {
-        eggService.buyEggs();
-        return ResponseEntity.status(HttpStatus.CREATED).body(eggService.buyEggs());
+        Integer validationEgg = validationService.validationAmtEgg();
+        Integer validationAmtCash = validationService.validationAmtCash();
+        if(validationEgg < 10 && validationAmtCash > 20) {
+            eggService.buyEggs();
+            return ResponseEntity.status(HttpStatus.CREATED).body(eggService.buyEggs());
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PostMapping("/sell")
     public ResponseEntity<List<Egg>> sellEggs() {
-        eggService.sellEggs();
-        return ResponseEntity.status(HttpStatus.CREATED).body(eggService.sellEggs());
+        Integer validationEgg = validationService.validationAmtEgg();
+        if(validationEgg > 0) {
+            eggService.sellEggs();
+            return ResponseEntity.status(HttpStatus.CREATED).body(eggService.sellEggs());
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @PostMapping("/drop")
     public ResponseEntity<List<Egg>> dropEggs() {
-        eggService.dropEggs();
-        return ResponseEntity.status(HttpStatus.CREATED).body(eggService.dropEggs());
+        Integer validationEgg = validationService.validationAmtEgg();
+        if(validationEgg > 0) {
+            eggService.dropEggs();
+            return ResponseEntity.status(HttpStatus.CREATED).body(eggService.dropEggs());
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 
