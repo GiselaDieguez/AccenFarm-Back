@@ -19,13 +19,13 @@ public interface iChickenRepository extends JpaRepository<Chicken, Long> {
 
     @Query(value = "UPDATE public.sellproducts\n" +
             "SET productamt = productamt + 1 \n" +
-            "WHERE productid = 1\n" +
+            "WHERE productid = 3\n" +
             ";", nativeQuery = true)
     List<Chicken> sellChicken();
 
     @Query(value = "UPDATE public.deleteproducts\n" +
             "SET productamt = productamt + 1 \n" +
-            "WHERE productid = 1;", nativeQuery = true)
+            "WHERE productid = 5;", nativeQuery = true)
     List<Chicken> dropChicken();
 
 

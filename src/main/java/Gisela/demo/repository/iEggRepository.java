@@ -17,11 +17,11 @@ public interface iEggRepository extends JpaRepository<Egg, Long> {
 
     @Query(value = "UPDATE public.sellproducts\n" +
             "SET productamt = productamt + 1 \n" +
-            "WHERE productid = 2;", nativeQuery = true)
+            "WHERE productid = 4;", nativeQuery = true)
     List<Egg> sellEggs();
 
     @Query(value = "UPDATE public.deleteproducts\n" +
             "SET productamt = productamt + 1 \n" +
-            "WHERE productid = 2;", nativeQuery = true)
+            "WHERE productid = 6;", nativeQuery = true)
     List<Egg> dropEggs();
 }

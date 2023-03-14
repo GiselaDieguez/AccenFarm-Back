@@ -10,21 +10,23 @@ import java.util.List;
 public interface iFarmRepository extends JpaRepository<Farm, Long> {
 
     @Query(value = "SELECT ft.time\n" +
-            "       , pb.productnm\n" +
-            "\t     , pb.productprice\n" +
-            "       , ft.transactionamt\n" +
+            "\t, pb.productnm\n" +
+            "\t, pb.productprice\n" +
+            "\t, ft.transactionamt\n" +
             "FROM public.facttransactions ft (nolock)\n" +
             "INNER JOIN public.buyproducts pb\n" +
-            "ON ft.productid = pb.productid ", nativeQuery = true)
+            "ON ft.productid = pb.productid \n" +
+            "order by 1 desc", nativeQuery = true)
     List<Farm> buyProducts();
 
     @Query(value = "SELECT ft.time\n" +
-            "       , ps.productnm\n" +
-            "\t     , ps.productprice\n" +
-            "       , ft.transactionamt\n" +
+            "\t, ps.productnm\n" +
+            "\t, ps.productprice\n" +
+            "\t, ft.transactionamt\n" +
             "FROM public.facttransactions ft (nolock)\n" +
             "INNER JOIN public.sellproducts ps\n" +
-            "ON ft.productid = ps.productid  ", nativeQuery = true)
+            "ON ft.productid = ps.productid \n" +
+            "order by 1 desc", nativeQuery = true)
     List<Farm> sellProducts();
 
     @Query(value = "SELECT ft.time\n" +
@@ -35,7 +37,8 @@ public interface iFarmRepository extends JpaRepository<Farm, Long> {
             "INNER JOIN public.deleteproducts ps\n" +
             "ON ft.productid = ps.productid\n" +
             "INNER JOIN public.sellproducts sp\n" +
-            "ON ft.productid = sp.productid ", nativeQuery = true)
+            "ON ps.operationid = sp.operationid\n" +
+            "order by 1 desc", nativeQuery = true)
     List<Farm> dropProducts();
 
 }

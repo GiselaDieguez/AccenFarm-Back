@@ -11,9 +11,9 @@ public interface iEggAmtRepository extends JpaRepository<EggAmt, Integer> {
     @Query(value = "SELECT pb.productamt - ps.productamt - dp.productamt as totaleggs\n" +
             "FROM buyproducts pb \n" +
             "INNER JOIN sellproducts ps \n" +
-            "ON pb.productid = ps.productid \n" +
+            "ON pb.operationid = ps.operationid \n" +
             "INNER JOIN deleteproducts dp\n" +
-            "ON pb.productid = dp.productid\n" +
-            "WHERE pb.productid = 2  ", nativeQuery = true)
+            "ON pb.operationid = dp.operationid\n" +
+            "WHERE pb.productid = 2", nativeQuery = true)
     List<EggAmt> showEggs();
 }
