@@ -1,6 +1,7 @@
 package Gisela.demo.controller;
 
 import Gisela.demo.model.Egg;
+import Gisela.demo.service.BirthService;
 import Gisela.demo.service.EggService;
 import Gisela.demo.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -18,6 +21,8 @@ public class EggController {
     private EggService eggService;
     @Autowired
     private ValidationService validationService;
+    @Autowired
+    private BirthService BirthService;
 
     @PostMapping("/buy")
     public ResponseEntity<List<Egg>> buyEggs() {
@@ -25,6 +30,9 @@ public class EggController {
         Integer validationAmtCash = validationService.validationAmtCash();
         Integer validationEggPrice = validationService.validationEggPrice();
         if(validationEgg < 10 && validationAmtCash > validationEggPrice) {
+            CompletableFuture.delayedExecutor(600000, TimeUnit.SECONDS).execute(() -> {
+                BirthService.birthChicken();
+            });
             eggService.buyEggs();
             return ResponseEntity.status(HttpStatus.CREATED).body(eggService.buyEggs());
         }else{

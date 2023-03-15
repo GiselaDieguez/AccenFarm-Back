@@ -9,13 +9,15 @@ import java.util.List;
 
 @Repository
 public interface iProductsRepository extends JpaRepository<ProductsAmt, Integer> {
-    @Query(value = "SELECT pb.productamt - ps.productamt - dp.productamt as totalchickens\n" +
-            "    FROM buyproducts pb \n" +
-            "    INNER JOIN sellproducts ps \n" +
-            "    ON pb.operationid = ps.operationid \n" +
-            "    INNER JOIN deleteproducts dp\n" +
-            "    ON pb.operationid = dp.operationid\n" +
-            "    WHERE pb.productid = 1 ", nativeQuery = true)
+    @Query(value = "SELECT pb.productamt + np.productamt - ps.productamt - dp.productamt as totalchickens\n" +
+            "FROM buyproducts pb \n" +
+            "INNER JOIN sellproducts ps\n" +
+            "ON pb.operationid = ps.operationid\n" +
+            "INNER JOIN deleteproducts dp\n" +
+            "ON pb.operationid = dp.operationid\n" +
+            "INNER JOIN newproducts np\n" +
+            "ON pb.operationid = np.operationid \n" +
+            "WHERE pb.productid = 1", nativeQuery = true)
     List<ProductsAmt> showChickens();
 
 }

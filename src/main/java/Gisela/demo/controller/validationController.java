@@ -40,6 +40,4 @@ public class validationController {
         return ResponseEntity.status(HttpStatus.OK).body(ValidationService.validationEggPrice());
     }
 
-
-
 }
