@@ -1,9 +1,7 @@
 package Gisela.demo.repository;
 import Gisela.demo.model.Birth;
-import Gisela.demo.model.Cash;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 public interface iBirthRepository extends JpaRepository<Birth, Long> {

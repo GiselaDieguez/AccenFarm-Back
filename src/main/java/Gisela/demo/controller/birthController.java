@@ -1,6 +1,5 @@
 package Gisela.demo.controller;
 import Gisela.demo.model.Birth;
-import Gisela.demo.model.Egg;
 import Gisela.demo.service.BirthService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,12 +17,12 @@ public class birthController {
     @Autowired
     private BirthService BirthService;
 
-    @GetMapping(value = "/chicken")
+    @PostMapping(value = "/chicken")
     public ResponseEntity<List<Birth>> birthChicken() {
         BirthService.birthChicken();
-        return ResponseEntity.status(HttpStatus.OK).body(BirthService.birthChicken());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
-    @GetMapping(value = "/egg")
+    @PostMapping(value = "/egg")
     public ResponseEntity<List<Birth>> birthEgg() {
         BirthService.birthEgg();
         return ResponseEntity.status(HttpStatus.OK).body(BirthService.birthEgg());
