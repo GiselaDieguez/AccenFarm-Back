@@ -1,47 +1,47 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.Egg;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import Gisela.demo.repository.iEggRepository;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
 class EggServiceTest {
-    @Mock
-    private iEggRepository iEggRepository;
-    @InjectMocks
-    private EggService eggService;
-
-    private Egg egg;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        egg = new Egg();
     }
 
     @Test
     void buyEggs() {
-        when(iEggRepository.buyEggs()).thenReturn(Arrays.asList(egg));
-        assertNotNull(eggService.buyEggs());
+        iEggRepository mockRepository = Mockito.mock(iEggRepository.class);
+
+        EggService eggService = new EggService();
+        eggService.setiEggRepository(mockRepository);
+
+        eggService.buyEggs();
+        Mockito.verify(mockRepository, Mockito.times(1)).buyEggs();
     }
 
     @Test
     void sellEggs() {
-        when(iEggRepository.sellEggs()).thenReturn(Arrays.asList(egg));
-        assertNotNull(eggService.sellEggs());
+        iEggRepository mockRepository = Mockito.mock(iEggRepository.class);
+
+        EggService eggService = new EggService();
+        eggService.setiEggRepository(mockRepository);
+
+        eggService.sellEggs();
+        Mockito.verify(mockRepository, Mockito.times(1)).sellEggs();
     }
 
     @Test
     void dropEggs() {
-        when(iEggRepository.dropEggs()).thenReturn(Arrays.asList(egg));
-        assertNotNull(eggService.dropEggs());
+        iEggRepository mockRepository = Mockito.mock(iEggRepository.class);
+
+        EggService eggService = new EggService();
+        eggService.setiEggRepository(mockRepository);
+
+        eggService.dropEggs();
+        Mockito.verify(mockRepository, Mockito.times(1)).dropEggs();
     }
 }

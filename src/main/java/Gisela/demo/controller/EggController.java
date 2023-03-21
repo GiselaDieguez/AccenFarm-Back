@@ -1,6 +1,5 @@
 package Gisela.demo.controller;
 
-import Gisela.demo.model.Egg;
 import Gisela.demo.service.BirthService;
 import Gisela.demo.service.EggService;
 import Gisela.demo.service.ValidationService;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,20 +23,20 @@ public class EggController {
     private BirthService birthService;
 
     @PostMapping("/buy")
-    public ResponseEntity<List<Egg>> buyEggs() {
+    public void buyEggs() {
         Integer validationEgg = validationService.validationAmtEgg();
         Integer validationAmtCash = validationService.validationAmtCash();
         Integer validationEggPrice = validationService.validationEggPrice();
-        if (validationEgg < 10 && validationAmtCash > validationEggPrice) {
+        if (validationEgg < 10 && validationAmtCash > validationEggPrice && validationEgg >= 0 ) {
 
-            Timer timer = new Timer();
-            timer.schedule(new ChickenTask(birthService), 45000);
+            Timer t = new Timer();
+            t.schedule(new ChickenTask(birthService), 45000);
 
             eggService.buyEggs();
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(eggService.buyEggs());
+            ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
         }
 
@@ -51,29 +49,32 @@ public class EggController {
 
         @Override
         public void run() {
-            birthService.birthChicken();
+            Integer validationEgg = validationService.validationAmtEgg();
+            if(validationEgg > 0 && validationEgg < 10){
+                birthService.birthChicken();
+            }
         }
     }
 
     @PostMapping("/sell")
-    public ResponseEntity<List<Egg>> sellEggs() {
+    public void sellEggs() {
         Integer validationEgg = validationService.validationAmtEgg();
         if(validationEgg > 0) {
             eggService.sellEggs();
-            return ResponseEntity.status(HttpStatus.CREATED).body(eggService.sellEggs());
+            ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping("/drop")
-    public ResponseEntity<List<Egg>> dropEggs() {
+    public void dropEggs() {
         Integer validationEgg = validationService.validationAmtEgg();
         if(validationEgg > 0) {
             eggService.dropEggs();
-            return ResponseEntity.status(HttpStatus.CREATED).body(eggService.dropEggs());
+            ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 

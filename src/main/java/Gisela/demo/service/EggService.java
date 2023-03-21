@@ -1,10 +1,7 @@
 package Gisela.demo.service;
-import Gisela.demo.model.Egg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import Gisela.demo.repository.iEggRepository;
-
-import java.util.List;
 
 @Service
 public class EggService {
@@ -12,16 +9,21 @@ public class EggService {
     @Autowired
     private iEggRepository iEggRepository;
 
-    public List<Egg> buyEggs() {
-        return iEggRepository.buyEggs();
+    @Autowired
+    public void setiEggRepository(iEggRepository iEggRepository) {
+        this.iEggRepository = iEggRepository;
     }
 
-    public List<Egg> sellEggs() {
-        return iEggRepository.sellEggs();
+    public void buyEggs() {
+        iEggRepository.buyEggs();
     }
 
-    public List<Egg> dropEggs() {
-        return iEggRepository.dropEggs();
+    public void sellEggs() {
+        iEggRepository.sellEggs();
+    }
+
+    public void dropEggs() {
+        iEggRepository.dropEggs();
     }
 
 

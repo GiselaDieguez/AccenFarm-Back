@@ -24,20 +24,20 @@ public class ChickenController {
     @Autowired
     private BirthService birthService;
     @PostMapping("/buy")
-    public ResponseEntity<List<Chicken>> buyChicken() {
+    public void buyChicken() {
         Integer validationChicken = validationService.validationAmt();
         Integer validationAmtCash = validationService.validationAmtCash();
         Integer validationChickenPrice = validationService.validationChickenPrice();
-        if (validationChicken < 10 && validationAmtCash > validationChickenPrice) {
+        if (validationChicken < 10 && validationAmtCash > validationChickenPrice && validationChicken >= 0) {
 
             Timer timer = new Timer();
             timer.schedule(new EggTask(birthService), 30000);
 
             chickenService.buyChicken();
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.buyChicken());
+            ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
         }
 
@@ -50,7 +50,10 @@ public class ChickenController {
 
         @Override
         public void run() {
-            birthService.birthEgg();
+            Integer validationChicken = validationService.validationAmt();
+            if(validationChicken > 0 && validationChicken < 10){
+                birthService.birthEgg();
+            }
         }
     }
 
@@ -59,20 +62,20 @@ public class ChickenController {
         Integer validationChicken = validationService.validationAmt();
         if(validationChicken > 0) {
             chickenService.sellChicken();
-            return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.sellChicken());
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @PostMapping("/drop")
-    public ResponseEntity<List<Chicken>> dropChicken() {
+    public void dropChicken() {
         Integer validationChicken = validationService.validationAmt();
         if(validationChicken > 0) {
             chickenService.dropChicken();
-            return ResponseEntity.status(HttpStatus.CREATED).body(chickenService.dropChicken());
+            ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

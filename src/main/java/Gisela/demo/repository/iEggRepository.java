@@ -1,27 +1,33 @@
 package Gisela.demo.repository;
 import Gisela.demo.model.Egg;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface iEggRepository extends JpaRepository<Egg, Long> {
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE public.buyproducts \n" +
             "SET productamt = productamt + 1 \n" +
             "WHERE productid = 2\n" +
             ";", nativeQuery = true)
-    List<Egg> buyEggs();
+    void buyEggs();
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE public.sellproducts\n" +
             "SET productamt = productamt + 1 \n" +
             "WHERE productid = 4;", nativeQuery = true)
-    List<Egg> sellEggs();
+    void sellEggs();
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE public.deleteproducts\n" +
             "SET productamt = productamt + 1 \n" +
             "WHERE productid = 6;", nativeQuery = true)
-    List<Egg> dropEggs();
+    void dropEggs();
 }
