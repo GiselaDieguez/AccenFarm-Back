@@ -1,16 +1,15 @@
 package Gisela.demo.repository;
 
-import Gisela.demo.model.Cash;
+import Gisela.demo.model.Farm;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
-public interface iCashRepository extends JpaRepository<Cash, Long> {
+public interface iCashRepository extends JpaRepository<Farm, Integer> {
     @Query(value = "SELECT SUM(totalcash) as totalcash\n" +
             "FROM public.facttransactions", nativeQuery = true)
-    List<Cash> showCash();
+    Integer showCash();
 
 }

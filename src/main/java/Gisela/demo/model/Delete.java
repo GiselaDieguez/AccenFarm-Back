@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "newproducts")
-public class Birth {
+@Table(name = "deleteproducts")
+public class Delete {
     @Id
     private Integer productid;
     private Integer productamt;

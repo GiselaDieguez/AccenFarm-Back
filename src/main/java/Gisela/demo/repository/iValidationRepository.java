@@ -1,12 +1,12 @@
 package Gisela.demo.repository;
-import Gisela.demo.model.Validation;
+import Gisela.demo.model.Farm;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 @Repository
-public interface iValidationRepository extends JpaRepository<Validation, Integer>{
+public interface iValidationRepository extends JpaRepository<Farm, Integer>{
 
     @Query(value = "SELECT pb.productamt + np.productamt - ps.productamt - dp.productamt as totalchickens\n" +
             "FROM buyproducts pb\n" +

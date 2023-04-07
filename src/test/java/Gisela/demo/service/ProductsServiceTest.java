@@ -1,35 +1,34 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.ProductsAmt;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import Gisela.demo.repository.iProductsRepository;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Arrays;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 class ProductsServiceTest {
     @Mock
-    private iProductsRepository iProductsRepository;
+    private iProductsRepository iProductsRepositoryMock;
+
     @InjectMocks
     private ProductsService productsService;
 
-    private ProductsAmt productsAmt;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-        productsAmt = new ProductsAmt();
-    }
-
     @Test
-    void showChickens() {
-        when(iProductsRepository.showChickens()).thenReturn(Arrays.asList(productsAmt));
-        assertNotNull(productsService.showChickens());
+    public void testShowChickens() {
+        // Define el valor esperado
+        int expected = 10;
+
+        // Configura el comportamiento del mock
+        when(iProductsRepositoryMock.showChickens()).thenReturn(expected);
+
+        // Ejecuta el método que se está probando
+        int actual = productsService.showChickens();
+
+        // Comprueba que el valor retornado por el servicio sea el esperado
+        assertEquals(expected, actual);
     }
 }

@@ -1,6 +1,5 @@
 package Gisela.demo.controller;
 
-import Gisela.demo.model.Chicken;
 import Gisela.demo.service.BirthService;
 import Gisela.demo.service.ChickenService;
 import Gisela.demo.service.ValidationService;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +26,7 @@ public class ChickenController {
         Integer validationChicken = validationService.validationAmt();
         Integer validationAmtCash = validationService.validationAmtCash();
         Integer validationChickenPrice = validationService.validationChickenPrice();
+
         if (validationChicken < 10 && validationAmtCash > validationChickenPrice && validationChicken >= 0) {
 
             Timer timer = new Timer();
@@ -58,13 +57,13 @@ public class ChickenController {
     }
 
     @PostMapping("/sell")
-    public ResponseEntity<List<Chicken>> sellChicken() {
+    public void sellChicken() {
         Integer validationChicken = validationService.validationAmt();
         if(validationChicken > 0) {
             chickenService.sellChicken();
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            ResponseEntity.status(HttpStatus.CREATED).build();
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 

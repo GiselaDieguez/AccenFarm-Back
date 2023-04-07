@@ -1,25 +1,35 @@
 package Gisela.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import Gisela.demo.model.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import Gisela.demo.repository.iChickenRepository;
 
 @Service
 public class ChickenService {
-    @Autowired
-    private iChickenRepository iChickenRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    public void setiChickenRepository(iChickenRepository iChickenRepository) {
-        this.iChickenRepository = iChickenRepository;
-    }
-
+    @Transactional
     public void buyChicken() {
-        iChickenRepository.buyChicken();
+        Buy chicken = entityManager.find(Buy.class, 1L);
+        chicken.setProductamt(chicken.getProductamt() + 1);
+        entityManager.merge(chicken);
     }
+
+    @Transactional
     public void sellChicken() {
-        iChickenRepository.sellChicken();
+        Sell chicken = entityManager.find(Sell.class, 3L);
+        chicken.setProductamt(chicken.getProductamt() + 1);
+        entityManager.merge(chicken);
     }
-    public void dropChicken() { iChickenRepository.dropChicken(); }
+
+    @Transactional
+    public void dropChicken() {
+        Delete chicken = entityManager.find(Delete.class, 5L);
+        chicken.setProductamt(chicken.getProductamt() + 1);
+        entityManager.merge(chicken);
+    }
 
 }

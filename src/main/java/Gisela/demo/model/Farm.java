@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -11,7 +12,7 @@ public class Farm {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    private Time time;
+    private Timestamp time;
     private String productnm;
     private Integer productprice;
     private Integer transactionamt;

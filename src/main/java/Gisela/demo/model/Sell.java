@@ -5,9 +5,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "newproducts")
-public class Birth {
+@Table(name = "sellproducts")
+public class Sell {
     @Id
     private Integer productid;
     private Integer productamt;
+
 }
