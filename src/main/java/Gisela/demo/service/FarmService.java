@@ -3,8 +3,6 @@ import Gisela.demo.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import Gisela.demo.repository.iFarmRepository;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,53 +12,53 @@ public class FarmService {
     @Autowired
     private iFarmRepository iFarmRepository;
 
+
     public List<Farm> buyProducts() {
+        List<Farm> buy = new ArrayList<>();
+
         List<Object[]> results = iFarmRepository.buyProducts();
-        List<Farm> farms = new ArrayList<>();
 
         for (Object[] row : results) {
             Farm farm = new Farm();
             farm.setTime((Timestamp) row[0]);
             farm.setProductnm((String) row[1]);
             farm.setProductprice((Integer) row[2]);
-            farm.setTransactionamt((Integer) row[3]);
-            farms.add(farm);
+            buy.add(farm);
         }
 
-        return farms;
+        return buy;
 
     }
 
     public List<Farm> sellProducts() {
+        List<Farm> sell = new ArrayList<>();
+
         List<Object[]> results = iFarmRepository.sellProducts();
-        List<Farm> farms = new ArrayList<>();
 
         for (Object[] row : results) {
             Farm farm = new Farm();
             farm.setTime((Timestamp) row[0]);
             farm.setProductnm((String) row[1]);
             farm.setProductprice((Integer) row[2]);
-            farm.setTransactionamt((Integer) row[3]);
-            farms.add(farm);
+            sell.add(farm);
         }
 
-        return farms;
+        return sell;
     }
 
     public List<Farm> dropProducts() {
+        List<Farm> drop = new ArrayList<>();
+
         List<Object[]> results = iFarmRepository.dropProducts();
-        List<Farm> farms = new ArrayList<>();
 
         for (Object[] row : results) {
             Farm farm = new Farm();
             farm.setTime((Timestamp) row[0]);
             farm.setProductnm((String) row[1]);
-            farm.setProductprice((Integer) row[2]);
-            farm.setTransactionamt((Integer) row[3]);
-            farms.add(farm);
+            drop.add(farm);
         }
 
-        return farms;
+        return drop;
 
     }
 

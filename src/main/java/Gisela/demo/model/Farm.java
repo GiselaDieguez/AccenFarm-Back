@@ -2,7 +2,6 @@ package Gisela.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Data
@@ -11,10 +10,9 @@ import java.sql.Timestamp;
 public class Farm {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
+    private Integer transactionid;
     private Timestamp time;
     private String productnm;
     private Integer productprice;
-    private Integer transactionamt;
 
 }

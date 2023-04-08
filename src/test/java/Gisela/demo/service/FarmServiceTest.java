@@ -1,47 +1,80 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.Farm;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import Gisela.demo.repository.iFarmRepository;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-class FarmServiceTest {
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import Gisela.demo.model.Farm;
+import Gisela.demo.repository.iFarmRepository;
+
+public class FarmServiceTest {
+
     @Mock
-    private iFarmRepository iFarmRepository;
+    private iFarmRepository farmRepository;
+
     @InjectMocks
     private FarmService farmService;
 
-    private Farm farm;
-
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setup() {
         MockitoAnnotations.initMocks(this);
-        farm = new Farm();
     }
 
     @Test
-    void buyProducts() {
-        when(iFarmRepository.buyProducts()).thenReturn(Arrays.asList(farm));
-        assertNotNull(farmService.buyProducts());
+    public void testBuyProducts() {
+        List<Object[]> results = new ArrayList<>();
+        Object[] row = new Object[4];
+        row[0] = new Timestamp(System.currentTimeMillis());
+        row[1] = "Sold Chicken";
+        row[2] = 400;
+        results.add(row);
+        when(farmRepository.buyProducts()).thenReturn(results);
+
+        List<Farm> farms = farmService.buyProducts();
+        assertEquals(1, farms.size());
+        assertEquals("Sold Chicken", farms.get(0).getProductnm());
+        assertEquals(Integer.valueOf(400), farms.get(0).getProductprice());
     }
 
     @Test
-    void sellProducts() {
-        when(iFarmRepository.sellProducts()).thenReturn(Arrays.asList(farm));
-        assertNotNull(farmService.sellProducts());
+    public void testSellProducts() {
+        List<Object[]> results = new ArrayList<>();
+        Object[] row = new Object[4];
+        row[0] = new Timestamp(System.currentTimeMillis());
+        row[1] = "New Chicken";
+        row[2] = 200;
+        results.add(row);
+        when(farmRepository.sellProducts()).thenReturn(results);
+
+        List<Farm> farms = farmService.sellProducts();
+        assertEquals(1, farms.size());
+        assertEquals("New Chicken", farms.get(0).getProductnm());
+        assertEquals(Integer.valueOf(200), farms.get(0).getProductprice());
     }
 
     @Test
-    void dropProducts() {
-        when(iFarmRepository.dropProducts()).thenReturn(Arrays.asList(farm));
-        assertNotNull(farmService.dropProducts());
+    public void testDropProducts() {
+        List<Object[]> results = new ArrayList<>();
+        Object[] row = new Object[4];
+        row[0] = new Timestamp(System.currentTimeMillis());
+        row[1] = "Drop Chicken";
+        row[2] = null;
+        results.add(row);
+        when(farmRepository.dropProducts()).thenReturn(results);
+
+        List<Farm> farms = farmService.dropProducts();
+        assertEquals(1, farms.size());
+        assertEquals("Drop Chicken", farms.get(0).getProductnm());
+        assertEquals(null, farms.get(0).getProductprice());
     }
+
 }

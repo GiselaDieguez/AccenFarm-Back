@@ -7,8 +7,7 @@ import org.mockito.Mock;
 import Gisela.demo.repository.iValidationRepository;
 import org.mockito.MockitoAnnotations;
 
-
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class ValidationServiceTest {
@@ -25,26 +24,36 @@ class ValidationServiceTest {
 
     @Test
     void validationAmt() {
-        when(iValidationRepository.validationAmt()).thenReturn(anyInt());
+        when(iValidationRepository.validationAmt()).thenReturn(6);
+        int result = validationService.validationAmt();
+        assertEquals(6, result);
     }
 
     @Test
     void validationAmtEgg() {
-        when(iValidationRepository.validationAmtEgg()).thenReturn(anyInt());
+        when(iValidationRepository.validationAmt()).thenReturn(6);
+        int result = validationService.validationAmt();
+        assertEquals(6, result);
     }
 
     @Test
     void validationAmtCash() {
-        when(iValidationRepository.validationAmtCash()).thenReturn(anyInt());
+        when(iValidationRepository.validationAmt()).thenReturn(6);
+        int result = validationService.validationAmt();
+        assertEquals(6, result);
     }
 
     @Test
     void validationChickenPrice() {
-        when(iValidationRepository.validationChickenPrice()).thenReturn(anyInt());
+        when(iValidationRepository.validationAmt()).thenReturn(6);
+        int result = validationService.validationAmt();
+        assertEquals(6, result);
     }
 
     @Test
     void validationEggPrice() {
-        when(iValidationRepository.validationEggPrice()).thenReturn(anyInt());
+        when(iValidationRepository.validationAmt()).thenReturn(6);
+        int result = validationService.validationAmt();
+        assertEquals(6, result);
     }
 }

@@ -19,16 +19,9 @@ class ProductsServiceTest {
 
     @Test
     public void testShowChickens() {
-        // Define el valor esperado
-        int expected = 10;
-
-        // Configura el comportamiento del mock
+        int expected = 8;
         when(iProductsRepositoryMock.showChickens()).thenReturn(expected);
-
-        // Ejecuta el método que se está probando
         int actual = productsService.showChickens();
-
-        // Comprueba que el valor retornado por el servicio sea el esperado
         assertEquals(expected, actual);
     }
 }

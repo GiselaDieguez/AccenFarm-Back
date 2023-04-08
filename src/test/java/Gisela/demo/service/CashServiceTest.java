@@ -1,36 +1,29 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.Cash;
-import org.junit.jupiter.api.BeforeEach;
+import Gisela.demo.repository.iCashRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import Gisela.demo.repository.iCashRepository;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-class CashServiceTest {
+@ExtendWith(MockitoExtension.class)
+public class CashServiceTest {
+
     @Mock
     private iCashRepository iCashRepository;
 
     @InjectMocks
     private CashService cashService;
 
-    private Cash cash;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-        cash = new Cash();
-    }
-
     @Test
-    void showCash() {
-        when(iCashRepository.showCash()).thenReturn(Arrays.asList(cash));
-        assertNotNull(cashService.showCash());
+    public void testShowCash() {
+        Integer expectedCash = 1000;
+        when(iCashRepository.showCash()).thenReturn(expectedCash);
+        Integer actualCash = cashService.showCash();
+        assertEquals(expectedCash, actualCash);
     }
 }

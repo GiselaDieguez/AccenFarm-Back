@@ -1,6 +1,5 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.Farm;
 import Gisela.demo.repository.iCashRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
