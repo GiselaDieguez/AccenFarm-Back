@@ -1,6 +1,6 @@
 package Gisela.demo.repository;
 
-import Gisela.demo.model.Farm;
+import Gisela.demo.model.Transactions;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,16 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface iProductsRepository extends JpaRepository<Farm, Integer> {
-    @Query(value = "SELECT pb.productamt + np.productamt - ps.productamt - dp.productamt as totalchickens\n" +
-            "FROM buyproducts pb \n" +
-            "INNER JOIN sellproducts ps\n" +
-            "ON pb.operationid = ps.operationid\n" +
-            "INNER JOIN deleteproducts dp\n" +
-            "ON pb.operationid = dp.operationid\n" +
-            "INNER JOIN newproducts np\n" +
-            "ON pb.operationid = np.operationid \n" +
-            "WHERE pb.productid = 1", nativeQuery = true)
+public interface iProductsRepository extends JpaRepository<Transactions, Integer> {
+    @Query(value = "SELECT \n" +
+            "SUM(CASE WHEN productid = 1 OR productid = 7 THEN productamt ELSE 0 END) - \n" +
+            "SUM(CASE WHEN productid = 3 OR productid = 5 THEN productamt ELSE 0 END) AS totalchickens\n" +
+            "FROM dimtrasactiontype\n" +
+            "WHERE operationid = 1;", nativeQuery = true)
     Integer showChickens();
 
 }

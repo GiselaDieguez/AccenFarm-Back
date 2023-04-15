@@ -1,6 +1,6 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.Birth;
+import Gisela.demo.model.Transactions;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -15,14 +15,14 @@ public class BirthService {
 
     @Transactional
     public void birthChicken() {
-        Birth chicken = entityManager.find(Birth.class, 7L);
+        Transactions chicken = entityManager.find(Transactions.class, 7L);
         chicken.setProductamt(chicken.getProductamt() + 1);
         entityManager.merge(chicken);
     }
 
     @Transactional
     public void birthEgg() {
-        Birth egg = entityManager.find(Birth.class, 8L);
+        Transactions egg = entityManager.find(Transactions.class, 8L);
         egg.setProductamt(egg.getProductamt() + 1);
         entityManager.merge(egg);
     }

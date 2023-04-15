@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "buyproducts")
-public class Buy {
+@Table(name = "dimtrasactiontype")
+public class Transactions {
     @Id
     private Integer productid;
     private Integer productamt;

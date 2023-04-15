@@ -1,33 +1,25 @@
 package Gisela.demo.repository;
-import Gisela.demo.model.Farm;
+import Gisela.demo.model.Transactions;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 @Repository
-public interface iValidationRepository extends JpaRepository<Farm, Integer>{
+public interface iValidationRepository extends JpaRepository<Transactions, Integer>{
 
-    @Query(value = "SELECT pb.productamt + np.productamt - ps.productamt - dp.productamt as totalchickens\n" +
-            "FROM buyproducts pb\n" +
-            "INNER JOIN sellproducts ps\n" +
-            "ON pb.operationid = ps.operationid\n" +
-            "INNER JOIN deleteproducts dp\n" +
-            "ON pb.operationid = dp.operationid\n" +
-            "INNER JOIN newproducts np\n" +
-            "ON pb.operationid = np.operationid \n" +
-            "WHERE pb.productid = 1", nativeQuery = true)
+    @Query(value = "SELECT \n" +
+            "SUM(CASE WHEN productid = 1 OR productid = 7 THEN productamt ELSE 0 END) - \n" +
+            "SUM(CASE WHEN productid = 3 OR productid = 5 THEN productamt ELSE 0 END) AS totalchickens\n" +
+            "FROM dimtrasactiontype\n" +
+            "WHERE operationid = 1;", nativeQuery = true)
     Integer validationAmt();
 
-    @Query(value = "SELECT pb.productamt + np.productamt - ps.productamt - dp.productamt as totaleggs\n" +
-            "FROM buyproducts pb \n" +
-            "INNER JOIN sellproducts ps \n" +
-            "ON pb.operationid = ps.operationid\n" +
-            "INNER JOIN deleteproducts dp\n" +
-            "ON pb.operationid = dp.operationid\n" +
-            "INNER JOIN newproducts np\n" +
-            "ON pb.operationid = np.operationid\n" +
-            "WHERE pb.productid = 2", nativeQuery = true)
+    @Query(value = "SELECT \n" +
+            "SUM(CASE WHEN productid = 2 OR productid = 8 THEN productamt ELSE 0 END) - \n" +
+            "SUM(CASE WHEN productid = 4 OR productid = 6 THEN productamt ELSE 0 END) AS totaleggs\n" +
+            "FROM dimtrasactiontype\n" +
+            "WHERE operationid = 2;", nativeQuery = true)
     Integer validationAmtEgg();
 
     @Query(value = "SELECT SUM(totalcash) as totalcash\n" +
@@ -35,12 +27,12 @@ public interface iValidationRepository extends JpaRepository<Farm, Integer>{
     Integer validationAmtCash();
 
     @Query(value = "SELECT productprice\n" +
-            "FROM buyproducts \n" +
+            "FROM dimtrasactiontype \n" +
             "WHERE productid = 1 ", nativeQuery = true)
     Integer validationChickenPrice();
 
     @Query(value = "SELECT productprice\n" +
-            "FROM buyproducts \n" +
+            "FROM dimtrasactiontype \n" +
             "WHERE productid = 2 ", nativeQuery = true)
     Integer validationEggPrice();
 

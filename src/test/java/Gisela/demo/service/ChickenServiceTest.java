@@ -1,8 +1,6 @@
 package Gisela.demo.service;
 
-import Gisela.demo.model.Buy;
-import Gisela.demo.model.Delete;
-import Gisela.demo.model.Sell;
+import Gisela.demo.model.Transactions;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,17 +24,17 @@ public class ChickenServiceTest {
     @BeforeEach
     public void setUp() {
 
-        Buy buy = new Buy();
+        Transactions buy = new Transactions();
         buy.setProductid(1);
         buy.setProductamt(0);
         entityManager.persist(buy);
 
-        Sell sell = new Sell();
+        Transactions sell = new Transactions();
         sell.setProductid(3);
         sell.setProductamt(0);
         entityManager.persist(sell);
 
-        Delete delete = new Delete();
+        Transactions delete = new Transactions();
         delete.setProductid(5);
         delete.setProductamt(0);
         entityManager.persist(delete);
@@ -48,7 +46,7 @@ public class ChickenServiceTest {
     public void testBuyChicken() {
         chickenService.buyChicken();
 
-        Buy chicken = entityManager.find(Buy.class, 1L);
+        Transactions chicken = entityManager.find(Transactions.class, 1L);
         assertEquals(1, chicken.getProductamt());
     }
 
@@ -58,7 +56,7 @@ public class ChickenServiceTest {
     public void testSellChicken() {
         chickenService.sellChicken();
 
-        Sell chicken = entityManager.find(Sell.class, 3L);
+        Transactions chicken = entityManager.find(Transactions.class, 3L);
         assertEquals(1, chicken.getProductamt());
     }
 
@@ -68,7 +66,7 @@ public class ChickenServiceTest {
     public void testDropChicken() {
         chickenService.dropChicken();
 
-        Delete chicken = entityManager.find(Delete.class, 5L);
+        Transactions chicken = entityManager.find(Transactions.class, 5L);
         assertEquals(1, chicken.getProductamt());
     }
 }
