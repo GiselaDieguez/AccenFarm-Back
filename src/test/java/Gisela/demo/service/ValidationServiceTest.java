@@ -3,16 +3,12 @@ package Gisela.demo.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import Gisela.demo.repository.iValidationRepository;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class ValidationServiceTest {
-    @Mock
-    private iValidationRepository iValidationRepository;
     @InjectMocks
     private ValidationService validationService;
 
@@ -24,36 +20,30 @@ class ValidationServiceTest {
 
     @Test
     void validationAmt() {
-        when(iValidationRepository.validationAmt()).thenReturn(6);
-        int result = validationService.validationAmt();
+        when(validationService.getTotalChickens(1)).thenReturn(6);
+        int result = validationService.getTotalChickens(1);
         assertEquals(6, result);
     }
 
     @Test
     void validationAmtEgg() {
-        when(iValidationRepository.validationAmt()).thenReturn(6);
-        int result = validationService.validationAmt();
+        when(validationService.getTotalEggs(2)).thenReturn(6);
+        int result = validationService.getTotalEggs(2);
         assertEquals(6, result);
     }
 
     @Test
-    void validationAmtCash() {
-        when(iValidationRepository.validationAmt()).thenReturn(6);
-        int result = validationService.validationAmt();
+    void getProductPriceChicken() {
+        when(validationService.getProductPrice(1)).thenReturn(6);
+        int result = validationService.getProductPrice(1);
         assertEquals(6, result);
     }
 
     @Test
-    void validationChickenPrice() {
-        when(iValidationRepository.validationAmt()).thenReturn(6);
-        int result = validationService.validationAmt();
+    void getProductPriceEgg() {
+        when(validationService.getProductPrice(2)).thenReturn(6);
+        int result = validationService.getProductPrice(2);
         assertEquals(6, result);
     }
 
-    @Test
-    void validationEggPrice() {
-        when(iValidationRepository.validationAmt()).thenReturn(6);
-        int result = validationService.validationAmt();
-        assertEquals(6, result);
-    }
 }

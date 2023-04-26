@@ -13,16 +13,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CashServiceTest {
 
-    @Mock
-    private iCashRepository iCashRepository;
-
     @InjectMocks
     private CashService cashService;
 
     @Test
     public void testShowCash() {
         Integer expectedCash = 1000;
-        when(iCashRepository.showCash()).thenReturn(expectedCash);
+        when(cashService.showCash()).thenReturn(expectedCash);
         Integer actualCash = cashService.showCash();
         assertEquals(expectedCash, actualCash);
     }

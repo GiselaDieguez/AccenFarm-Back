@@ -24,9 +24,9 @@ public class EggController {
 
     @PostMapping("/buy")
     public void buyEggs() {
-        Integer validationEgg = validationService.validationAmtEgg();
+        Integer validationEgg = validationService.getTotalEggs(2);
         Integer validationAmtCash = validationService.validationAmtCash();
-        Integer validationEggPrice = validationService.validationEggPrice();
+        Integer validationEggPrice = validationService.getProductPrice(4);
         if (validationEgg < 10 && validationAmtCash > validationEggPrice && validationEgg >= 0 ) {
 
             Timer t = new Timer();
@@ -49,7 +49,7 @@ public class EggController {
 
         @Override
         public void run() {
-            Integer validationEgg = validationService.validationAmtEgg();
+            Integer validationEgg = validationService.getTotalEggs(2);
             if(validationEgg > 0 && validationEgg < 10){
                 birthService.birthChicken();
             }
@@ -58,7 +58,7 @@ public class EggController {
 
     @PostMapping("/sell")
     public void sellEggs() {
-        Integer validationEgg = validationService.validationAmtEgg();
+        Integer validationEgg = validationService.getTotalEggs(2);
         if(validationEgg > 0) {
             eggService.sellEggs();
             ResponseEntity.status(HttpStatus.CREATED).build();
@@ -69,7 +69,7 @@ public class EggController {
 
     @PostMapping("/drop")
     public void dropEggs() {
-        Integer validationEgg = validationService.validationAmtEgg();
+        Integer validationEgg = validationService.getTotalEggs(2);
         if(validationEgg > 0) {
             eggService.dropEggs();
             ResponseEntity.status(HttpStatus.CREATED).build();

@@ -10,5 +10,7 @@ public class Transactions {
     @Id
     private Integer productid;
     private Integer productamt;
-
+    private Integer productprice;
+    private Integer operationid;
+    private String productnm;
 }
