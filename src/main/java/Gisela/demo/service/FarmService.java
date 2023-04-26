@@ -1,65 +1,75 @@
 package Gisela.demo.service;
 import Gisela.demo.model.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import Gisela.demo.repository.iFarmRepository;
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Service
 public class FarmService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private iFarmRepository iFarmRepository;
 
 
-    public List<Farm> buyProducts() {
-        List<Farm> buy = new ArrayList<>();
+    public List<Object[]> buyProducts() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
 
-        List<Object[]> results = iFarmRepository.buyProducts();
+        Root<Farm> rootFt = cq.from(Farm.class);
+        Join<Farm, Transactions> joinPb = rootFt.join("transactions", JoinType.INNER);
 
-        for (Object[] row : results) {
-            Farm farm = new Farm();
-            farm.setTime((Timestamp) row[0]);
-            farm.setProductnm((String) row[1]);
-            farm.setProductprice((Integer) row[2]);
-            buy.add(farm);
-        }
+        cq.multiselect(rootFt.get("time"), joinPb.get("productnm"), joinPb.get("productprice"));
+        cq.where(joinPb.get("productid").in(Arrays.asList(1, 2)));
+        cq.orderBy(cb.desc(rootFt.get("time")));
 
-        return buy;
+        TypedQuery<Object[]> query = entityManager.createQuery(cq);
+        List<Object[]> results = query.getResultList();
 
+        return results;
     }
 
-    public List<Farm> sellProducts() {
-        List<Farm> sell = new ArrayList<>();
 
-        List<Object[]> results = iFarmRepository.sellProducts();
 
-        for (Object[] row : results) {
-            Farm farm = new Farm();
-            farm.setTime((Timestamp) row[0]);
-            farm.setProductnm((String) row[1]);
-            farm.setProductprice((Integer) row[2]);
-            sell.add(farm);
-        }
+    public List<Object[]> sellProducts() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
 
-        return sell;
+        Root<Farm> rootFt = cq.from(Farm.class);
+        Join<Farm, Transactions> joinPb = rootFt.join("transactions", JoinType.INNER);
+
+        cq.multiselect(rootFt.get("time"), joinPb.get("productnm"), joinPb.get("productprice"));
+        cq.where(joinPb.get("productid").in(Arrays.asList(3, 4)));
+        cq.orderBy(cb.desc(rootFt.get("time")));
+
+        TypedQuery<Object[]> query = entityManager.createQuery(cq);
+        List<Object[]> results = query.getResultList();
+
+        return results;
     }
 
-    public List<Farm> dropProducts() {
-        List<Farm> drop = new ArrayList<>();
+    public List<Object[]> dropProducts() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
 
-        List<Object[]> results = iFarmRepository.dropProducts();
+        Root<Farm> rootFt = cq.from(Farm.class);
+        Join<Farm, Transactions> joinPb = rootFt.join("transactions", JoinType.INNER);
 
-        for (Object[] row : results) {
-            Farm farm = new Farm();
-            farm.setTime((Timestamp) row[0]);
-            farm.setProductnm((String) row[1]);
-            drop.add(farm);
-        }
+        cq.multiselect(rootFt.get("time"), joinPb.get("productnm"));
+        cq.where(joinPb.get("productid").in(Arrays.asList(5, 6)));
+        cq.orderBy(cb.desc(rootFt.get("time")));
 
-        return drop;
+        TypedQuery<Object[]> query = entityManager.createQuery(cq);
+        List<Object[]> results = query.getResultList();
 
+        return results;
     }
 
 }

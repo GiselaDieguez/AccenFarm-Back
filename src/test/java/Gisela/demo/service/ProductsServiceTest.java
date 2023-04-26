@@ -20,8 +20,8 @@ class ProductsServiceTest {
     @Test
     public void testShowChickens() {
         int expected = 8;
-        when(iProductsRepositoryMock.showChickens()).thenReturn(expected);
-        int actual = productsService.showChickens();
+        when(productsService.getTotalChickens()).thenReturn(expected);
+        int actual = productsService.getTotalChickens();
         assertEquals(expected, actual);
     }
 }

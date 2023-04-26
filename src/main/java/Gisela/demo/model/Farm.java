@@ -14,5 +14,10 @@ public class Farm {
     private Timestamp time;
     private String productnm;
     private Integer productprice;
+    private Integer totalcash;
+
+    @ManyToOne
+    @JoinColumn(name = "productid")
+    public Transactions transactions;
 
 }

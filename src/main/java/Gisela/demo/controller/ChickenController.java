@@ -21,13 +21,14 @@ public class ChickenController {
     private ValidationService validationService;
     @Autowired
     private BirthService birthService;
+
     @PostMapping("/buy")
     public void buyChicken() {
-        Integer validationChicken = validationService.validationAmt();
+        Integer validationChicken = validationService.getTotalChickens(1);
         Integer validationAmtCash = validationService.validationAmtCash();
-        Integer validationChickenPrice = validationService.validationChickenPrice();
+        Integer validationChickenPrice = validationService.getProductPrice(3);
 
-        if (validationChicken < 10 && validationAmtCash > validationChickenPrice && validationChicken >= 0) {
+       if (validationChicken < 10 && validationAmtCash > validationChickenPrice && validationChicken >= 0) {
 
             Timer timer = new Timer();
             timer.schedule(new EggTask(birthService), 30000);
@@ -49,7 +50,7 @@ public class ChickenController {
 
         @Override
         public void run() {
-            Integer validationChicken = validationService.validationAmt();
+            Integer validationChicken = validationService.getTotalChickens(1);
             if(validationChicken > 0 && validationChicken < 10){
                 birthService.birthEgg();
             }
@@ -58,7 +59,7 @@ public class ChickenController {
 
     @PostMapping("/sell")
     public void sellChicken() {
-        Integer validationChicken = validationService.validationAmt();
+        Integer validationChicken = validationService.getTotalChickens(1);
         if(validationChicken > 0) {
             chickenService.sellChicken();
             ResponseEntity.status(HttpStatus.CREATED).build();
@@ -69,7 +70,7 @@ public class ChickenController {
 
     @PostMapping("/drop")
     public void dropChicken() {
-        Integer validationChicken = validationService.validationAmt();
+        Integer validationChicken = validationService.getTotalChickens(1);
         if(validationChicken > 0) {
             chickenService.dropChicken();
             ResponseEntity.status(HttpStatus.CREATED).build();
