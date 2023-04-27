@@ -1,18 +1,18 @@
 package Gisela.demo.service;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import Gisela.demo.model.Transactions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ParametersService {
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     public <T, R> R getSingleResultByLike(Class<T> entityClass, Class<R> resultClass, String attributeName, String likeAttribute, String likeValue) {
