@@ -2,6 +2,7 @@ package Gisela.demo.controller;
 
 import Gisela.demo.service.BirthService;
 import Gisela.demo.service.EggService;
+import Gisela.demo.service.ParametersService;
 import Gisela.demo.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,16 @@ public class EggController {
     private ValidationService validationService;
     @Autowired
     private BirthService birthService;
+    @Autowired
+    private ParametersService parametersService;
 
     @PostMapping("/buy")
     public void buyEggs() {
-        Integer validationEgg = validationService.getTotalEggs(2);
+        Integer EggProductId = parametersService.productIdEgg();
+        Integer EggSoldProductId = parametersService.productIdSoldEgg();
+        Integer validationEgg = validationService.getTotalEggs(EggProductId);
         Integer validationAmtCash = validationService.validationAmtCash();
-        Integer validationEggPrice = validationService.getProductPrice(4);
+        Integer validationEggPrice = validationService.getProductPrice(EggSoldProductId);
         if (validationEgg < 10 && validationAmtCash > validationEggPrice && validationEgg >= 0 ) {
 
             Timer t = new Timer();
@@ -49,7 +54,8 @@ public class EggController {
 
         @Override
         public void run() {
-            Integer validationEgg = validationService.getTotalEggs(2);
+            Integer EggProductId = parametersService.productIdEgg();
+            Integer validationEgg = validationService.getTotalEggs(EggProductId);
             if(validationEgg > 0 && validationEgg < 10){
                 birthService.birthChicken();
             }
@@ -58,7 +64,8 @@ public class EggController {
 
     @PostMapping("/sell")
     public void sellEggs() {
-        Integer validationEgg = validationService.getTotalEggs(2);
+        Integer EggProductId = parametersService.productIdEgg();
+        Integer validationEgg = validationService.getTotalEggs(EggProductId);
         if(validationEgg > 0) {
             eggService.sellEggs();
             ResponseEntity.status(HttpStatus.CREATED).build();
@@ -69,7 +76,8 @@ public class EggController {
 
     @PostMapping("/drop")
     public void dropEggs() {
-        Integer validationEgg = validationService.getTotalEggs(2);
+        Integer EggProductId = parametersService.productIdEgg();
+        Integer validationEgg = validationService.getTotalEggs(EggProductId);
         if(validationEgg > 0) {
             eggService.dropEggs();
             ResponseEntity.status(HttpStatus.CREATED).build();

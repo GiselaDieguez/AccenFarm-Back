@@ -7,30 +7,29 @@ import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class ValidationService {
     @PersistenceContext
     private EntityManager entityManager;
-
     @Autowired
     private CashService cashService;
+    @Autowired
+    private ParametersService parametersService;
 
-    public Integer getTotalChickens(Integer operationId) {
+    public Integer getTotal(Integer operationId, Integer productId, Integer newProductId, Integer soldProductId, Integer dropProductId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
-
         Root<Transactions> root = cq.from(Transactions.class);
 
         Expression<Integer> sum1 = cb.sum(
                 cb.<Integer>selectCase()
-                        .when(cb.or(cb.equal(root.get("productid"), 1), cb.equal(root.get("productid"), 7)), root.get("productamt"))
+                        .when(cb.or(cb.equal(root.get("productid"), productId), cb.equal(root.get("productid"), newProductId)), root.get("productamt"))
                         .otherwise(0)
         );
 
         Expression<Integer> sum2 = cb.sum(
                 cb.<Integer>selectCase()
-                        .when(cb.or(cb.equal(root.get("productid"), 3), cb.equal(root.get("productid"), 5)), root.get("productamt"))
+                        .when(cb.or(cb.equal(root.get("productid"), soldProductId), cb.equal(root.get("productid"), dropProductId)), root.get("productamt"))
                         .otherwise(0)
         );
 
@@ -41,36 +40,26 @@ public class ValidationService {
         Integer result = query.getSingleResult();
 
         return result;
+    }
 
+    public Integer getTotalChickens(Integer operationId) {
+        Integer chickenProductId = parametersService.productIdChicken();
+        Integer chickenNewProductId = parametersService.productIdNewChicken();
+        Integer chickenSoldProductId = parametersService.productIdSoldChicken();
+        Integer chickenDropProductId = parametersService.productIdDropChicken();
+
+        return getTotal(operationId, chickenProductId, chickenNewProductId, chickenSoldProductId, chickenDropProductId);
     }
 
     public Integer getTotalEggs(Integer operationId) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+        Integer EggProductId = parametersService.productIdEgg();
+        Integer EggNewProductId = parametersService.productIdNewEgg();
+        Integer EggSoldProductId = parametersService.productIdSoldEgg();
+        Integer EggDropProductId = parametersService.productIdDropEgg();
 
-        Root<Transactions> root = cq.from(Transactions.class);
-
-        Expression<Integer> sum1 = cb.sum(
-                cb.<Integer>selectCase()
-                        .when(cb.or(cb.equal(root.get("productid"), 2), cb.equal(root.get("productid"), 8)), root.get("productamt"))
-                        .otherwise(0)
-        );
-
-        Expression<Integer> sum2 = cb.sum(
-                cb.<Integer>selectCase()
-                        .when(cb.or(cb.equal(root.get("productid"), 4), cb.equal(root.get("productid"), 6)), root.get("productamt"))
-                        .otherwise(0)
-        );
-
-        cq.select(cb.diff(sum1, sum2))
-                .where(cb.equal(root.get("operationid"), operationId));
-
-        TypedQuery<Integer> query = entityManager.createQuery(cq);
-        Integer result = query.getSingleResult();
-
-        return result;
-
+        return getTotal(operationId, EggProductId, EggNewProductId, EggSoldProductId, EggDropProductId);
     }
+
 
     public Integer getProductPrice(Integer operationId) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

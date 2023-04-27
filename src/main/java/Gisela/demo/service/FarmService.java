@@ -6,7 +6,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import Gisela.demo.repository.iFarmRepository;
 import java.util.Arrays;
 import java.util.List;
 @Service
@@ -16,10 +15,9 @@ public class FarmService {
     private EntityManager entityManager;
 
     @Autowired
-    private iFarmRepository iFarmRepository;
+    private ParametersService parametersService;
 
-
-    public List<Object[]> buyProducts() {
+    public List<Object[]> getProducts(Integer[] productIds) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
 
@@ -27,7 +25,7 @@ public class FarmService {
         Join<Farm, Transactions> joinPb = rootFt.join("transactions", JoinType.INNER);
 
         cq.multiselect(rootFt.get("time"), joinPb.get("productnm"), joinPb.get("productprice"));
-        cq.where(joinPb.get("productid").in(Arrays.asList(1, 2)));
+        cq.where(joinPb.get("productid").in(Arrays.asList(productIds)));
         cq.orderBy(cb.desc(rootFt.get("time")));
 
         TypedQuery<Object[]> query = entityManager.createQuery(cq);
@@ -36,40 +34,23 @@ public class FarmService {
         return results;
     }
 
-
+    public List<Object[]> buyProducts() {
+        Integer chickenProductId = parametersService.productIdChicken();
+        Integer eggProductId = parametersService.productIdEgg();
+        return getProducts(new Integer[]{chickenProductId, eggProductId});
+    }
 
     public List<Object[]> sellProducts() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
-
-        Root<Farm> rootFt = cq.from(Farm.class);
-        Join<Farm, Transactions> joinPb = rootFt.join("transactions", JoinType.INNER);
-
-        cq.multiselect(rootFt.get("time"), joinPb.get("productnm"), joinPb.get("productprice"));
-        cq.where(joinPb.get("productid").in(Arrays.asList(3, 4)));
-        cq.orderBy(cb.desc(rootFt.get("time")));
-
-        TypedQuery<Object[]> query = entityManager.createQuery(cq);
-        List<Object[]> results = query.getResultList();
-
-        return results;
+        Integer chickenSoldProductId = parametersService.productIdSoldChicken();
+        Integer eggSoldProductId = parametersService.productIdSoldEgg();
+        return getProducts(new Integer[]{chickenSoldProductId, eggSoldProductId});
     }
 
     public List<Object[]> dropProducts() {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
-
-        Root<Farm> rootFt = cq.from(Farm.class);
-        Join<Farm, Transactions> joinPb = rootFt.join("transactions", JoinType.INNER);
-
-        cq.multiselect(rootFt.get("time"), joinPb.get("productnm"));
-        cq.where(joinPb.get("productid").in(Arrays.asList(5, 6)));
-        cq.orderBy(cb.desc(rootFt.get("time")));
-
-        TypedQuery<Object[]> query = entityManager.createQuery(cq);
-        List<Object[]> results = query.getResultList();
-
-        return results;
+        Integer chickenDropProductId = parametersService.productIdDropChicken();
+        Integer eggDropProductId = parametersService.productIdDropEgg();
+        return getProducts(new Integer[]{chickenDropProductId, eggDropProductId});
     }
+
 
 }

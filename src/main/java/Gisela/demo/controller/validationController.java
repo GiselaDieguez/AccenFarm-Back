@@ -1,4 +1,5 @@
 package Gisela.demo.controller;
+import Gisela.demo.service.ParametersService;
 import Gisela.demo.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,30 +13,35 @@ import org.springframework.web.bind.annotation.*;
 public class validationController {
     @Autowired
     private ValidationService ValidationService;
-
+    @Autowired
+    private ParametersService parametersService;
 
     @GetMapping(value = "/validation/stockChicken")
     public ResponseEntity<Integer> getTotalChickens() {
-        ValidationService.getTotalChickens(1);
-        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getTotalChickens(1));
+        Integer chickenProductId = parametersService.productIdChicken();
+        ValidationService.getTotalChickens(chickenProductId);
+        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getTotalChickens(chickenProductId));
     }
 
     @GetMapping(value = "/validation/stockEgg")
     public ResponseEntity<Integer> getTotalEggs() {
-        ValidationService.getTotalEggs(2);
-        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getTotalEggs(2));
+        Integer EggProductId = parametersService.productIdEgg();
+        ValidationService.getTotalEggs(EggProductId);
+        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getTotalEggs(EggProductId));
     }
 
     @GetMapping(value = "/validation/chickenPrice")
     public ResponseEntity<Integer> getProductPrice() {
-        ValidationService.getProductPrice(3);
-        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getProductPrice(3));
+        Integer chickenSoldProductId = parametersService.productIdSoldChicken();
+        ValidationService.getProductPrice(chickenSoldProductId);
+        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getProductPrice(chickenSoldProductId));
     }
 
     @GetMapping(value = "/validation/eggPrice")
     public ResponseEntity<Integer> validationEggPrice() {
-        ValidationService.getProductPrice(4);
-        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getProductPrice(4));
+        Integer EggSoldProductId = parametersService.productIdSoldEgg();
+        ValidationService.getProductPrice(EggSoldProductId);
+        return ResponseEntity.status(HttpStatus.OK).body(ValidationService.getProductPrice(EggSoldProductId));
     }
 
     @GetMapping(value = "/validation/cash")
