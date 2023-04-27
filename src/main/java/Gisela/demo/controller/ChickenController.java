@@ -2,6 +2,7 @@ package Gisela.demo.controller;
 
 import Gisela.demo.service.BirthService;
 import Gisela.demo.service.ChickenService;
+import Gisela.demo.service.ParametersService;
 import Gisela.demo.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,16 @@ public class ChickenController {
     private ValidationService validationService;
     @Autowired
     private BirthService birthService;
+    @Autowired
+    private ParametersService parametersService;
 
     @PostMapping("/buy")
     public void buyChicken() {
-        Integer validationChicken = validationService.getTotalChickens(1);
+        Integer chickenProductId = parametersService.productIdChicken();
+        Integer chickenSoldProductId = parametersService.productIdSoldChicken();
+        Integer validationChicken = validationService.getTotalChickens(chickenProductId);
         Integer validationAmtCash = validationService.validationAmtCash();
-        Integer validationChickenPrice = validationService.getProductPrice(3);
+        Integer validationChickenPrice = validationService.getProductPrice(chickenSoldProductId);
 
        if (validationChicken < 10 && validationAmtCash > validationChickenPrice && validationChicken >= 0) {
 
@@ -50,7 +55,8 @@ public class ChickenController {
 
         @Override
         public void run() {
-            Integer validationChicken = validationService.getTotalChickens(1);
+            Integer chickenProductId = parametersService.productIdChicken();
+            Integer validationChicken = validationService.getTotalChickens(chickenProductId);
             if(validationChicken > 0 && validationChicken < 10){
                 birthService.birthEgg();
             }
@@ -59,7 +65,8 @@ public class ChickenController {
 
     @PostMapping("/sell")
     public void sellChicken() {
-        Integer validationChicken = validationService.getTotalChickens(1);
+        Integer chickenProductId = parametersService.productIdChicken();
+        Integer validationChicken = validationService.getTotalChickens(chickenProductId);
         if(validationChicken > 0) {
             chickenService.sellChicken();
             ResponseEntity.status(HttpStatus.CREATED).build();
@@ -70,7 +77,8 @@ public class ChickenController {
 
     @PostMapping("/drop")
     public void dropChicken() {
-        Integer validationChicken = validationService.getTotalChickens(1);
+        Integer chickenProductId = parametersService.productIdChicken();
+        Integer validationChicken = validationService.getTotalChickens(chickenProductId);
         if(validationChicken > 0) {
             chickenService.dropChicken();
             ResponseEntity.status(HttpStatus.CREATED).build();

@@ -3,6 +3,7 @@ import Gisela.demo.model.Transactions;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,24 +11,29 @@ public class EggService {
 
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private ParametersService parametersService;
 
     @Transactional
     public void buyEggs() {
-        Transactions egg = entityManager.find(Transactions.class, 2L);
+        Integer EggProductId = parametersService.productIdEgg();
+        Transactions egg = entityManager.find(Transactions.class, EggProductId);
         egg.setProductamt(egg.getProductamt() + 1);
         entityManager.merge(egg);
     }
 
     @Transactional
     public void sellEggs() {
-        Transactions egg = entityManager.find(Transactions.class, 4L);
+        Integer EggSoldProductId = parametersService.productIdSoldEgg();
+        Transactions egg = entityManager.find(Transactions.class, EggSoldProductId);
         egg.setProductamt(egg.getProductamt() + 1);
         entityManager.merge(egg);
     }
 
     @Transactional
     public void dropEggs() {
-        Transactions egg = entityManager.find(Transactions.class, 6L);
+        Integer EggDropProductId = parametersService.productIdDropEgg();
+        Transactions egg = entityManager.find(Transactions.class, EggDropProductId);
         egg.setProductamt(egg.getProductamt() + 1);
         entityManager.merge(egg);
     }
